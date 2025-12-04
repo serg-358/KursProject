@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Настройки тренировки - Клавиатурный тренажер{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h2>Настройки тренировки</h2>
+    
+    <form action="{{ url_for('start_training') }}" method="POST" class="settings-form">
+        <div class="form-group">
+            <label for="level">Уровень сложности:</label>
+            <select id="level" name="level" required>
+                <option value="1" selected>Легкий</option>
+                <option value="2">Средний</option>
+                <option value="3">Сложный</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="language">Язык:</label>
+            <select id="language" name="language" required>
+                <option value="ru" selected>Русский</option>
+                <option value="en">Английский</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Начать тренировку</button>
+    </form>
+
+    <div class="custom-words-section">
+        <h3>Добавить свои слова</h3>
+        <form action="{{ url_for('add_custom_word') }}" method="POST" class="custom-word-form">
+            <div class="form-row">
+                <input type="text" name="word" placeholder="Введите слово" required 
+                       pattern="[A-Za-zА-Яа-яёЁ]+" title="Только буквы без пробелов">
+                
+                <select name="level">
+                    <option value="1" selected>Легкий</option>
+                    <option value="2">Средний</option>
+                    <option value="3">Сложный</option>
+                </select>
+                
+                <select name="language">
+                    <option value="ru" selected>Русский</option>
+                    <option value="en">Английский</option>
+                </select>
+                
+                <button type="submit" class="btn btn-secondary">Добавить</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Результаты - Клавиатурный тренажер{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <h2>Результаты тренировки</h2>
+    
+    {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+    {% else %}
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_words }}</div>
+                <div class="stat-label">Всего слов</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.correct_words }}</div>
+                <div class="stat-label">Правильно</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.cpm }} CPM</div>
+                <div class="stat-label">Скорость</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.accuracy }}%</div>
+                <div class="stat-label">Точность</div>
+            </div>
+        </div>
+
+        <div class="detailed-stats">
+            <div class="stat-row">
+                <span class="stat-name">Общее время:</span>
+                <span class="stat-value">{{ stats.total_time }} секунд</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-name">Количество ошибок:</span>
+                <span class="stat-value">{{ stats.total_errors }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-name">Уровень:</span>
+                <span class="stat-value">{{ session.training_data.level|title if session.training_data }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-name">Язык:</span>
+                <span class="stat-value">{{ session.training_data.language|upper if session.training_data }}</span>
+            </div>
+        </div>
+
+        {% if stats.error_words %}
+        <div class="errors-section">
+            <h3>Слова с ошибками:</h3>
+            <div class="errors-list">
+                {% for error_word in stats.error_words %}
+                <div class="error-word">
+                    <span class="correct-word">{{ error_word.word }}</span>
+                    {% if error_word.errors %}
+                    <span class="error-details">
+                        (ошибки: 
+                        {% for error in error_word.errors %}
+                            {% if error.length_mismatch %}
+                                пропущено "{{ error.correct }}"
+                            {% else %}
+                                позиция {{ error.position + 1 }}
+                            {% endif %}
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        )
+                    </span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="success-message">
+            Отличный результат! Ни одной ошибки!
+        </div>
+        {% endif %}
+
+        <div class="results-actions">
+            <a href="{{ url_for('start_training') }}" class="btn btn-primary">
+                Тренироваться еще раз
+            </a>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                На главную
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

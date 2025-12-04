@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Тренировка - Клавиатурный тренажер{% endblock %}
+
+{% block content %}
+
+<div class="trainer-container">
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-label">Прогресс:</span>
+            <span id="progress" class="stat-value">0/0</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Время:</span>
+            <span id="timer" class="stat-value">00:00</span>
+        </div>
+    </div>
+
+    <div class="word-section">
+        <div id="word-display" class="word-display">
+            Загрузка слова...
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="user-input" class="user-input"
+                   autocomplete="off" autocorrect="off" autocapitalize="off"
+                   placeholder="Начните вводить слово..." disabled>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="finish-btn" class="btn btn-warning">Завершить тренировку</button>
+        <button id="restart-btn" class="btn btn-secondary">Начать заново</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/trainer.js') }}"></script>
+{% endblock %}
